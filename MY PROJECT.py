@@ -21,7 +21,7 @@
 # - enviar o arquivo, com os gráficos em anexo, por email (win32com.client)
 # 
 
-# In[1]:
+# In[5]:
 
 
 #1 - importar bibliotecas
@@ -44,19 +44,18 @@ import win32com.client as win32
 from datetime import datetime
 
 
-# In[ ]:
+# In[7]:
 
 
 #2 - acessar a base de dados na internet
+pyautogui.alert('INÍCIO DA AUTOMAÇÃO. FAVOR NÃO TOCAR O MOUSE OU TECLADO.')
+
 browser = webdriver.Chrome()
-browser.maximize_window()
+time.sleep(2)
+pyautogui.press('f11')
 browser.get('https://drive.google.com/drive/folders/1T7D0BlWkNuy_MDpUHuBG44kT80EmRYIs?usp=sharing')
 
 while not len(browser.find_elements(By.XPATH, '//*[@id="gb"]/div[2]/div[1]/div[4]/div/a/img')) > 0 :
-    time.sleep(1)
-print('ok')
-
-while not pyautogui.locateOnScreen('Screenshot_2.png', grayscale=True, confidence=0.9):
     time.sleep(1)
 print('ok')
 
@@ -67,8 +66,10 @@ pyautogui.click(x=1833, y=147)
 time.sleep(5)
 browser.quit()
 
+pyautogui.alert('FIM DA AUTOMAÇÃO.')
 
-# In[8]:
+
+# In[ ]:
 
 
 #3 - enviar o arquivo para a pasta do projeto
@@ -79,7 +80,7 @@ shutil.copy2(local_arquivo, local_destino)
 os.remove(local_arquivo)
 
 
-# In[9]:
+# In[ ]:
 
 
 #4 - acessar a base de dados
@@ -89,7 +90,7 @@ display(df)
 df.info()
 
 
-# In[10]:
+# In[ ]:
 
 
 #5 - tratamento do df e dos dados
@@ -101,7 +102,7 @@ display(df)
 df.info()
 
 
-# In[11]:
+# In[ ]:
 
 
 #6.1 - análise: quais os números dos cancelamentos/churns?
@@ -119,7 +120,7 @@ clientes_cancelamentos2 = df_churn.loc['Sim', 'Churn']
 print(f'Número de clientes: {clientes:,}; Número de cancelamentos: {clientes_cancelamentos2:,}')
 
 
-# In[12]:
+# In[ ]:
 
 
 #6.2 - análise: quais os clientes mais fiéis (maior tempo como cliente)? quantos destes clientes cancelaram?
@@ -141,7 +142,7 @@ fig_max_clientes_top.update_traces(textfont_size=20)
 fig_max_clientes_top.show()
 
 
-# In[13]:
+# In[ ]:
 
 
 #6.3 - análise: comparação da quantidade de clientes para cada forma de pagamento; quantos de cada cancelou?
@@ -158,7 +159,7 @@ fig_pgto.update_traces(textfont_size=20)
 fig_pgto.show()
 
 
-# In[14]:
+# In[ ]:
 
 
 #6.5 - análise: qual o faturamento mensal da empresa?
@@ -170,7 +171,7 @@ faturamento_mensal = df_fat.loc['Nao', 'ValorMensal']
 print(f'Faturamento mensal = R$ {faturamento_mensal:,.2f}.')
 
 
-# In[15]:
+# In[ ]:
 
 
 #6.6 - análise: quantos clientes possuem o pacote completo da empresa (ServicoTelefone	MultiplasLinhas	ServicoInternet	ServicoSegurancaOnline	ServicoBackupOnline	ProtecaoEquipamento	ServicoSuporteTecnico	ServicoStreamingTV	ServicoFilmes)? Destes, quais cancelaram?
@@ -188,7 +189,7 @@ for item in lista_itens_pacote_completo:
     fig_pacotecompleto.show()
 
 
-# In[16]:
+# In[ ]:
 
 
 #6.7 - análise: qual o valor médio dos contratos mensais? e dos contratos anuais? quantos destes clientes cancelaram?
@@ -207,7 +208,7 @@ fig_contrato.update_traces(textfont_size=20)
 fig_contrato.show()
 
 
-# In[17]:
+# In[ ]:
 
 
 #6.8 - análise: qual o percentual de clientes que tem o plano básico (internet fibra e telefone)?
@@ -220,7 +221,7 @@ percentual_internetfibra_telefone = contador2 / len(df)
 print(f'O percentual de clientes que tem o plano básico é {percentual_internetfibra_telefone:.0%}.')
 
 
-# In[20]:
+# In[ ]:
 
 
 #6.9 - análise: quais os reais motivos dos cancelamentos/churns?
@@ -232,7 +233,7 @@ for col in df.columns:
     fig.write_image(f"{col}-churn.png")
 
 
-# In[19]:
+# In[ ]:
 
 
 #7 - exportar os resultados das análises para um arquivo de texto existente .docx
@@ -273,7 +274,7 @@ for paragrafo in documento.paragraphs:
 documento.save(fr'{local_destino}/Relatório Mensal Análise de Dados (FINAL).docx')
 
 
-# In[25]:
+# In[ ]:
 
 
 #8 - criar uma pasta nova, na pasta do projeto, e adicionar os gráficos .png
@@ -289,7 +290,7 @@ for arquivo in os.listdir(local_destino):
         shutil.move(grafico, pasta_graficos)
 
 
-# In[26]:
+# In[ ]:
 
 
 #9 - enviar o arquivo de texto, com os gráficos em anexo, por email para a diretoria
